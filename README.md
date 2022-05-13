@@ -10,6 +10,7 @@ CREATE DATABSE '<database_name>';
 GRANT ALL ON <database_name>.* to '<username>'@'localhost';
 exit;
 ```
+<br />
 
 **Project Clonen:**
 ```
