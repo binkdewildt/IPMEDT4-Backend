@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use \App\Http\Controllers\Api\AuthController;
+use \App\Http\Controllers\Api\QuestionController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +17,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Login && Register
+Route::post('/login', 'AuthController@login');
+Route::post('/register', 'AuthController@register');
+
+
+// All the other calls, login required
+Route::middleware('auth:sanctum')->group(function () {
+
+    //* User Calls
+    Route::get('/me', 'AuthController@me');
+
+
+    //* All Questions Calls
+    Route::get('questions', 'QuestionController@index');
+    Route::put('questions', 'QuestionController@store');
+
+
+    //* Specific Question Calls
+    Route::get('questions/{id}', 'QuestionController@show');
+    Route::delete('questions/{id}', 'QuestionController@destroy');
+
+
+    //* Score Calls
+    Route::get('scores', 'ScoreController@index');
+    Route::get('scores/me', 'ScoreController@show');
+    Route::put('scores', 'ScoreController@store');
+
 });
