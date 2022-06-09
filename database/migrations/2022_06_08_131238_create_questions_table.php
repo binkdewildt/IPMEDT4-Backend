@@ -16,11 +16,16 @@ class CreateQuestionsTable extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('question');
-            $table->string('answerA');
-            $table->string('answerB');
-            $table->string('answerC');
-            $table->string('answerD');
-            $table->enum('correctAnswer', ['A', 'B', 'C', 'D']);
+
+            // MC Question
+            $table->boolean('mcQuestion');
+            $table->string('answerA')->nullable();
+            $table->string('answerB')->nullable();
+            $table->string('answerC')->nullable();
+            $table->string('answerD')->nullable();
+
+            // Answers
+            $table->string('correctAnswer');
             $table->integer('points');
         });
     }
