@@ -56,12 +56,13 @@ class QuestionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'question' => 'required|string|max:255',
-            'answerA' => 'required|string|max:255',
-            'answerB' => 'required|string|max:255',
-            'answerC' => 'required|string|max:255',
-            'answerD' => 'required|string|max:255',
-            'correctAnswer' => 'required|string|max:1',
-            'points' => 'required|integer'
+            'mcQuestion' => 'required|boolean',
+            'answerA' => 'string|max:255',
+            'answerB' => 'string|max:255',
+            'answerC' => 'string|max:255',
+            'answerD' => 'string|max:255',
+            'correctAnswer' => 'required|string',
+            'points' => 'required|integer',
         ]);
 
         // Returns an error if validation error occur
@@ -74,6 +75,7 @@ class QuestionController extends Controller
 
             // Assign the properties
             $question->question = $request->input('question');
+            $question->mcQuestion = $request->input('mcQuestion');
             $question->answerA = $request->input('answerA');
             $question->answerB = $request->input('answerB');
             $question->answerC = $request->input('answerC');
