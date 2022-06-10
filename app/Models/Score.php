@@ -25,6 +25,11 @@ class Score extends Model
         'created_at',
     ];
 
+    protected $fillable = [
+        'score',
+        'question',
+    ];
+
 
     //* Methods
 }

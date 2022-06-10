@@ -16,7 +16,7 @@ class AuthController extends Controller
 
     public function me(Request $request)
     {
-        return $request->user();
+        return response()->json($request->user(), 200);
     }
 
     public function register(Request $request)
@@ -24,7 +24,7 @@ class AuthController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users|max:255',
-            'password' => 'required|min:10',
+            'password' => 'required|min:8',
         ]);
 
 
@@ -44,9 +44,10 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
-            $token = $user->createToken('auth_token')->plainTextToken;
+            $token = $user->createToken('auth_token', [])->plainTextToken;
 
             return response()->json([
+                'permissions' => $user->permissions,
                 'access_token' => $token,
                 'token_type' => 'Bearer',
             ]);
@@ -64,9 +65,14 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $request['email'])->firstOrFail();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $user->createToken('auth_token', [])->plainTextToken;
+
+        if ($user->permissions === "Admin") {
+            $token = $user->createToken('auth_token', ['is-admin'])->plainTextToken;
+        }
 
         return response()->json([
+            'permissions' => $user->permissions,
             'access_token' => $token,
             'token_type' => "Bearer",
         ]);

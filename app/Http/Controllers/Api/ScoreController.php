@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 use \App\Models\Score;
+use \App\Models\Question;
 use Exception;
 
 class ScoreController extends Controller
@@ -25,6 +26,31 @@ class ScoreController extends Controller
 
 
     /**
+     * It returns the score of the user, the amount of questions answered and whether the user has finished
+     * the quiz
+     * 
+     * @param Request request The request object
+     * 
+     * @return The score, the amount of questions answered, and if the user has finished the quiz.
+     */
+    public function show(Request $request)
+    {
+        try {
+            $questionAmount = Question::all()->count();
+            $me = $request->user()->id;
+            $score = Score::where('user_id', '=', $me)->orderBy('score', 'DESC')->first();
+            return response()->json([
+                'score' => $score->score,
+                'question' => $score->answeredQuestions,
+                'finished' => $score->answeredQuestions === $questionAmount,
+            ]);
+        } catch (Exception $e) {
+            return response()->json([], 200);
+        }
+    }
+
+
+    /**
      * It gets the user's id from the request, then gets the top 10 scores for that user, and returns them
      * as JSON
      * 
@@ -32,7 +58,7 @@ class ScoreController extends Controller
      * 
      * @return The top 10 scores for the user that is logged in.
      */
-    public function show(Request $request)
+    public function myScores(Request $request)
     {
         $me = $request->user()->id;
         $scores = Score::where('user_id', '=', $me)->orderBy('score', 'DESC')->take(10)->get();
@@ -52,11 +78,11 @@ class ScoreController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'score' => 'required|integer',
+            'question' => 'required|integer',
         ]);
 
         // Returns an error if validation error occur
         if ($validator->fails()) {
-            $errors = $validator->errors();
             return response()->json([
                 'error' => 'The score must be valid.',
             ], 400);
@@ -76,6 +102,37 @@ class ScoreController extends Controller
                     'error' => $e->getMessage(),
                 ], 400);
             }
+        }
+    }
+
+
+    /**
+     * It updates the score of the user who is currently logged in
+     * 
+     * @param Request request This is the request object that contains the data sent from the client.
+     * 
+     * @return The score is being returned.
+     */
+    public function update(Request $request)
+    {
+        $me = $request->user()->id;
+
+        try {
+            Score::where('user_id', '=', $me)
+                ->orderBy('created_at', 'DESC')
+                ->firstOrFail()
+                ->update([
+                    'score' => $request->input('score'),
+                    'answeredQuestions' => $request->input('question'),
+                ]);
+
+            return response()->json([
+                'message' => "Score has been updated"
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => "Please start a game first before updating score"
+            ], 400);
         }
     }
 }

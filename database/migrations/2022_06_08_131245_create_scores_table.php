@@ -20,6 +20,8 @@ class CreateScoresTable extends Migration
 
             $table->timestamp('created_at')->useCurrent();
 
+            $table->integer('answeredQuestions')->default(0);
+
             // Foreign keys
             $table->foreign('user_id')->references('id')->on('users');
         });

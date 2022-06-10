@@ -55,7 +55,7 @@ class QuestionController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'question' => 'required|string|max:255',
+            'question' => 'required|unique:questions|string|max:255',
             'mcQuestion' => 'required|boolean',
             'answerA' => 'string|max:255',
             'answerB' => 'string|max:255',
@@ -104,6 +104,16 @@ class QuestionController extends Controller
      */
     public function destroy($id)
     {
-        Question::destroy($id);
+
+        try {
+            $question = Question::findOrFail($id);
+            $question->delete();
+            return response()->json([], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'Could not destroy the question',
+                'error' => $e->getMessage(),
+            ], 400);
+        }
     }
 }

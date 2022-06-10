@@ -17,7 +17,9 @@ use \App\Http\Controllers\Api\QuestionController;
 |
 */
 
-// Login && Register
+
+
+//* Login && Register
 Route::post('/login', 'AuthController@login');
 Route::post('/register', 'AuthController@register');
 
@@ -31,17 +33,25 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //* All Questions Calls
     Route::get('questions', 'QuestionController@index');
-    Route::put('questions', 'QuestionController@store');
 
 
     //* Specific Question Calls
     Route::get('questions/{id}', 'QuestionController@show');
-    Route::delete('questions/{id}', 'QuestionController@destroy');
 
 
     //* Score Calls
     Route::get('scores', 'ScoreController@index');
-    Route::get('scores/me', 'ScoreController@show');
-    Route::put('scores', 'ScoreController@store');
+    Route::get('scores/last', 'ScoreController@show');
+    Route::get('scores/me', 'ScoreController@myScores');
 
+    Route::post('scores', 'ScoreController@store');
+    Route::put('scores', 'ScoreController@update');
+});
+
+
+//* Admin routes
+Route::middleware(['auth:sanctum', 'abilities:is-admin'])->group(function () {
+    Route::put('questions', 'QuestionController@store');
+    
+    Route::delete('questions/{id}', 'QuestionController@destroy');
 });

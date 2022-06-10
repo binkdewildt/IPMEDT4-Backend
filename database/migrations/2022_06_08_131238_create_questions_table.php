@@ -25,6 +25,7 @@ class CreateQuestionsTable extends Migration
             $table->string('answerD')->nullable();
 
             // Answers
+            $table->string('reason')->nullable();
             $table->string('correctAnswer');
             $table->integer('points');
         });

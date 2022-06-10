@@ -22,6 +22,16 @@ class UserTableSeeder extends Seeder
             ->count(10)
             ->create();
 
+        // Create normal user
+        User::create([
+            'name' => "normal",
+            'email' => "normal@gmail.com",
+            'password' => Hash::make("normal123"),
+            'email_verified_at' => now(),
+            'remember_token' => Str::random(10),
+            'permissions' => 'User',
+        ]);
+
         // Create admin user
         User::create([
             'name' => "admin",
@@ -29,6 +39,7 @@ class UserTableSeeder extends Seeder
             'password' => Hash::make("admin123"),
             'email_verified_at' => now(),
             'remember_token' => Str::random(10),
+            'permissions' => 'Admin',
         ]);
     }
 }

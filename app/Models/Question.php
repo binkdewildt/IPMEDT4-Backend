@@ -27,6 +27,7 @@ class Question extends Model
         'answerC',
         'answerD',
         'correctAnswer',
+        'reason',
         'points'
     ];
 
