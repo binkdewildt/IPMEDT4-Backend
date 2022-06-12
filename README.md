@@ -24,3 +24,4 @@ php artisan key:generate
 
 
 - Bewerk in de .env file de DB_DATABSE, DB_USERNAME en DB_PASSWORD naar de valide gegevens
+- Voeg in de .env SANCTUM_STATEFUL_DOMAINS=localhost toe.
