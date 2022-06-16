@@ -102,7 +102,6 @@ class QuestionsTableSeeder extends Seeder
             'answerD' => '9 bij agt, 6 bij pakketten, en 6 bij uitloop',
             'reason' => 'Met 6 uitloop heb je genoeg mensen om dat werkend te krijgen. Verder moet je een goede balans tussen agt en pakketten weer vinden.',
             'correctAnswer' => 'A',
-            // In principe zijn beide A & D goed dus misschien kijken of dat mogelijk is
             'points' => 10,
         ],
 
@@ -162,7 +161,7 @@ class QuestionsTableSeeder extends Seeder
             'answerC' => null,
             'answerD' => null,
             'reason' => 'Het kan altijd gebeuren dat er iemand ziek word tijdens werk, geef daar de medewerkers ook ruimte voor. In de tussentijd probeer iemand te regelen die het kan overnemen',
-            'correctAnswer' => 'Respectvol vragen of het nog mogelijk is om een uur te blijven, en ondertussen vervanging regelen',
+            'correctAnswer' => 'vervanging regelen',
             'points' => 10,
         ],
 
@@ -198,7 +197,7 @@ class QuestionsTableSeeder extends Seeder
             'answerC' => null,
             'answerD' => null,
             'reason' => 'Als er werknemers te kort zijn, is het altijd belangrijk om om extra medewerkers te vragen, en kijken of er toch extra mensen kunnen komen',
-            'correctAnswer' => 'Vragen of er mensen beschikbaar zijn',
+            'correctAnswer' => 'vragen om hulp',
             'points' => 10,
         ],
 
@@ -222,7 +221,7 @@ class QuestionsTableSeeder extends Seeder
             'answerC' => null,
             'answerD' => null,
             'reason' => 'Met moeilijkheden is het beste om minimaal 24 werknemers te hebben, waardoor alles nog steeds goed verdeelt kan worden. Hierbij zorgt het dat er geen erge achterstand zal komen, maar wel alles voornamelijk gedaan wordt.',
-            'correctAnswer' => '24, want dan kan alles goed verdeeld worden',
+            'correctAnswer' => '24',
             'points' => 10,
         ],
     ];
