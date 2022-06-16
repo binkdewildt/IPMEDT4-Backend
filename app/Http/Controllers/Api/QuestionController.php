@@ -76,10 +76,10 @@ class QuestionController extends Controller
             // Assign the properties
             $question->question = $request->input('question');
             $question->mcQuestion = $request->input('mcQuestion');
-            $question->answerA = $request->input('answerA');
-            $question->answerB = $request->input('answerB');
-            $question->answerC = $request->input('answerC');
-            $question->answerD = $request->input('answerD');
+            $question->answerA = $request->input('answerA') ?? null;
+            $question->answerB = $request->input('answerB') ?? null;
+            $question->answerC = $request->input('answerC') ?? null;
+            $question->answerD = $request->input('answerD') ?? null;
             $question->correctAnswer = $request->input('correctAnswer');
             $question->points = $request->input('points');
 

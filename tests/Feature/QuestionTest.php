@@ -38,6 +38,7 @@ class QuestionTest extends TestCase
                     'answerC',
                     'answerD',
                     'correctAnswer',
+                    'reason',
                     'points',
                 ]
             ]);
@@ -79,7 +80,7 @@ class QuestionTest extends TestCase
         ])->putJson('/api/questions', [
             'question' => "Unit test question?",
             'mcQuestion' => false,
-            'answerA' => 'A?',
+            'answerA' => 'A',
             'correctAnswer' => 'A',
             'points' => 195,
         ]);
