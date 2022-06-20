@@ -20,14 +20,16 @@ class Score extends Model
      * @var array
      */
     protected $visible = [
+        'id',
         'user_id',
         'score',
         'created_at',
     ];
 
     protected $fillable = [
+        'user_id',
         'score',
-        'question',
+        'answeredQuestions',
     ];
 
 

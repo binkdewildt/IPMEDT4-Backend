@@ -57,10 +57,11 @@ class QuestionController extends Controller
         $validator = Validator::make($request->all(), [
             'question' => 'required|unique:questions|string|max:255',
             'mcQuestion' => 'required|boolean',
-            'answerA' => 'string|max:255',
-            'answerB' => 'string|max:255',
-            'answerC' => 'string|max:255',
-            'answerD' => 'string|max:255',
+            'answerA' => 'max:255',
+            'answerB' => 'max:255',
+            'answerC' => 'max:255',
+            'answerD' => 'max:255',
+            'reason' => 'max:255',
             'correctAnswer' => 'required|string',
             'points' => 'required|integer',
         ]);
@@ -69,7 +70,7 @@ class QuestionController extends Controller
         if ($validator->fails()) {
             $errors = $validator->errors();
             return response()->json([
-                'error' => $errors
+                'error' => $errors,
             ], 400);
         } else {
 
@@ -80,6 +81,7 @@ class QuestionController extends Controller
             $question->answerB = $request->input('answerB') ?? null;
             $question->answerC = $request->input('answerC') ?? null;
             $question->answerD = $request->input('answerD') ?? null;
+            $question->reason = $request->input('reason') ?? null;
             $question->correctAnswer = $request->input('correctAnswer');
             $question->points = $request->input('points');
 

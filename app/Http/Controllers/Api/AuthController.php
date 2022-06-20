@@ -47,9 +47,9 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token', [])->plainTextToken;
 
             return response()->json([
-                'permissions' => $user->permissions,
                 'access_token' => $token,
                 'token_type' => 'Bearer',
+                'user' => $user,
             ]);
         }
     }
@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'message' => "Invalid login details"
+                'message' => "Email/wachtwoord is onjuist."
             ], 400);
         }
 
@@ -72,7 +72,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'permissions' => $user->permissions,
+            'user' => $user,
             'access_token' => $token,
             'token_type' => "Bearer",
         ]);

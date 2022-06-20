@@ -25,6 +25,7 @@ class ScoreTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure([
                 [
+                    'id',
                     'user_id',
                     'score',
                     'created_at',
@@ -47,6 +48,7 @@ class ScoreTest extends TestCase
             ->assertStatus(200)
             ->assertJsonStructure([
                 [
+                    'id',
                     'user_id',
                     'score',
                     'created_at',

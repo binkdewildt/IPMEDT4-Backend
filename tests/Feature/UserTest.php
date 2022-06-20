@@ -28,9 +28,9 @@ class UserTest extends TestCase
         $response
             ->assertStatus(200)
             ->assertJsonStructure([
-                'permissions',
                 'access_token',
                 'token_type',
+                'user',
             ]);
     }
 

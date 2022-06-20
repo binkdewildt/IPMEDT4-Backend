@@ -13,6 +13,18 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The attributes that are visible
+     * 
+     * @var array
+     */
+    protected $visible = [
+        'id',
+        'name',
+        'email',
+        'permissions',
+    ];
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

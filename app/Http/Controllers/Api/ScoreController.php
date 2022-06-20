@@ -35,14 +35,17 @@ class ScoreController extends Controller
      */
     public function show(Request $request)
     {
+
         try {
             $questionAmount = Question::all()->count();
             $me = $request->user()->id;
             $score = Score::where('user_id', '=', $me)->orderBy('score', 'DESC')->first();
             return response()->json([
+                'total' => Question::all()->count(),
+                'id' => $score->id,
                 'score' => $score->score,
                 'question' => $score->answeredQuestions,
-                'finished' => $score->answeredQuestions === $questionAmount,
+                'finished' => $score->answeredQuestions === $questionAmount - 1,
             ]);
         } catch (Exception $e) {
             return response()->json([], 200);
@@ -116,23 +119,71 @@ class ScoreController extends Controller
     public function update(Request $request)
     {
         $me = $request->user()->id;
+        $id = $request->input('id');
 
-        try {
-            Score::where('user_id', '=', $me)
-                ->orderBy('created_at', 'DESC')
-                ->firstOrFail()
-                ->update([
-                    'score' => $request->input('score'),
-                    'answeredQuestions' => $request->input('question'),
-                ]);
+        $score = Score::where([
+            ['id', '=', $id],
+            ['user_id', '=', $me]
+        ])->orderBy('created_at', 'DESC')->first();
+
+        // Update the score
+        if ($score !== null) {
+            Score::where([
+                ['id', '=', $id],
+                ['user_id', '=', $me]
+            ])->orderBy('created_at', 'DESC')->first()->update([
+                'score' => $request->input('score'),
+                'answeredQuestions' => $request->input('question'),
+            ]);
 
             return response()->json([
-                'message' => "Score has been updated"
+                'message' => "Score has been updated.",
+                'score' => $score,
             ], 200);
-        } catch (Exception $e) {
-            return response()->json([
-                'message' => "Please start a game first before updating score"
-            ], 400);
         }
+
+        // Create the score
+        else {
+            $newId = Score::create([
+                'user_id' => $me,
+                "score" => $request->input('score'),
+                "answeredQuestions" => $request->input('question')
+            ])->id;
+
+            return response()->json([
+                'id' => $newId,
+                'message' => "Score has been created",
+            ], 200);
+        }
+
+        // Return response
+
+
+
+
+        // Score::updateOrCreate(
+        //     ['user_id' => $me],
+        //     []
+        // );
+
+        // try {
+        //     Score::where('user_id', '=', $me)
+        //         ->orderBy('created_at', 'DESC')
+        //         ->firstOrFail()
+        //         ->update([
+        //             "user_id" => $me,
+        //             'score' => $request->input('score'),
+        //             'answeredQuestions' => $request->input('question'),
+        //         ]);
+
+        //     return response()->json([
+        //         'message' => "Score has been updated"
+        //     ], 200);
+        // } catch (Exception $e) {
+        //     return response()->json([
+        //         'message' => "Please start a game first before updating score",
+        //         'a' => $e->getMessage(),
+        //     ], 400);
+        // }
     }
 }
