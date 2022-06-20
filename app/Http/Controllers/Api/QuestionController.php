@@ -87,7 +87,7 @@ class QuestionController extends Controller
 
             // Try to save the new question
             try {
-                $question->save();
+                // $question->save();
                 return response()->json($question);
             } catch (Exception $e) {
                 return response()->json([

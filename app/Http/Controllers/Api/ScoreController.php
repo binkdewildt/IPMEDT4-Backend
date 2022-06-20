@@ -39,7 +39,13 @@ class ScoreController extends Controller
         try {
             $questionAmount = Question::all()->count();
             $me = $request->user()->id;
-            $score = Score::where('user_id', '=', $me)->orderBy('score', 'DESC')->first();
+            $score = Score::where('user_id', '=', $me)->orderBy('created_at', 'desc')->firstOrFail();
+
+            // If its finished, dont send it
+            if ($score->answeredQuestions === $questionAmount - 1) {
+                return response()->json([]);
+            }
+
             return response()->json([
                 'total' => Question::all()->count(),
                 'id' => $score->id,
